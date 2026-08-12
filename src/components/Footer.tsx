@@ -1,8 +1,11 @@
 import PebbleCluster from "./PebbleCluster";
-import { formatDateRange } from "@/lib/settings";
+import { formatDateRange, DEFAULT_EVENT_SETTINGS } from "@/lib/settings";
 import type { EventSettings } from "@/lib/types";
 
-export default function Footer({ settings }: { settings: EventSettings }) {
+// settings is optional so this component never breaks a page that hasn't
+// fetched it (e.g. client-rendered pages like /register or /login) — it
+// just falls back to the same defaults used everywhere else.
+export default function Footer({ settings = DEFAULT_EVENT_SETTINGS }: { settings?: EventSettings }) {
   return (
     <footer className="border-t border-charcoal/10 bg-charcoal text-cream">
       <div className="mx-auto max-w-6xl px-6 py-14 md:px-10">

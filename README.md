@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # COBBIT — Hackathon #01 Website
 
 The official website for **COBBIT Hackathon #01** (Aug 31 – Sep 6, 2026, remote, Pakistan). Handles registration, payment proof review, project submissions, and automatic certificate generation.
@@ -237,3 +238,6 @@ cp .env.example .env.local   # fill in your values
 npm install
 npm run dev
 ```
+=======
+# cobbit
+>>>>>>> 930fbfa1de3ffae980d383ab7184fef5cc2a80eb

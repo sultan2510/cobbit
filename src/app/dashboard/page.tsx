@@ -5,6 +5,7 @@ import Footer from "@/components/Footer";
 import StatusBadge from "@/components/StatusBadge";
 import SubmissionForm from "@/components/SubmissionForm";
 import CertificatesList from "@/components/CertificatesList";
+import { getEventSettings, formatDate } from "@/lib/settings";
 import type { Registration, Submission } from "@/lib/types";
 
 export default async function DashboardPage() {
@@ -14,6 +15,8 @@ export default async function DashboardPage() {
   } = await supabase.auth.getUser();
 
   if (!user) redirect("/login");
+
+  const settings = await getEventSettings(supabase);
 
   const { data: registration } = await supabase
     .from("registrations")
@@ -75,7 +78,7 @@ export default async function DashboardPage() {
               )}
               {registration.status === "approved" && (
                 <p className="mt-4 rounded-xl bg-orange/10 p-4 text-sm text-charcoal">
-                  You're confirmed for COBBIT Hackathon #01. Good luck building!
+                  You're confirmed for {settings.event_name}. Good luck building!
                 </p>
               )}
             </div>
@@ -86,7 +89,7 @@ export default async function DashboardPage() {
                   <h2 className="font-display font-700 text-charcoal">Project submission</h2>
                   <StatusBadge status={submission.status} />
                 </div>
-                <p className="mt-1 text-sm text-dgray">Submissions close September 6, 2026.</p>
+                <p className="mt-1 text-sm text-dgray">Submissions close {formatDate(settings.submission_deadline)}.</p>
                 <SubmissionForm submission={submission} />
               </div>
             )}
@@ -95,7 +98,7 @@ export default async function DashboardPage() {
           </div>
         )}
       </main>
-      <Footer />
+      <Footer settings={settings} />
     </>
   );
 }
