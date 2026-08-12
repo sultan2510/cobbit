@@ -2,7 +2,15 @@ import { Resend } from "resend";
 import { createAdminClient } from "./supabase/admin";
 import { getEventSettings, formatDate } from "./settings";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+// Constructed lazily (only when actually sending an email) instead of at
+// module load. The Resend SDK throws if RESEND_API_KEY is missing, and
+// Next.js imports every route module during the build's "collect page
+// data" step — a top-level `new Resend(...)` would crash the build on
+// any deploy where the env var isn't set yet.
+function getResend() {
+  return new Resend(process.env.RESEND_API_KEY);
+}
+
 const FROM = process.env.RESEND_FROM_EMAIL || "COBBIT <hello@cobbit.dev>";
 const SITE = process.env.NEXT_PUBLIC_SITE_URL || "https://cobbit.dev";
 
@@ -52,7 +60,7 @@ function wrapper(bodyHtml: string, eventName: string) {
 
 export async function sendRegistrationReceivedEmail(to: string, name: string) {
   const { eventName } = await loadEventCopy();
-  await resend.emails.send({
+  await getResend().emails.send({
     from: FROM,
     to,
     subject: `We've received your ${eventName} registration`,
@@ -70,7 +78,7 @@ export async function sendRegistrationReceivedEmail(to: string, name: string) {
 
 export async function sendApprovedEmail(to: string, name: string) {
   const { eventName, hackathonStart, submissionDeadline, discordLink, whatsappLink } = await loadEventCopy();
-  await resend.emails.send({
+  await getResend().emails.send({
     from: FROM,
     to,
     subject: `You're in! ${eventName} registration approved`,
@@ -89,7 +97,7 @@ export async function sendApprovedEmail(to: string, name: string) {
 
 export async function sendRejectedEmail(to: string, name: string, reason: string) {
   const { eventName } = await loadEventCopy();
-  await resend.emails.send({
+  await getResend().emails.send({
     from: FROM,
     to,
     subject: `Update on your ${eventName} registration`,
@@ -117,7 +125,7 @@ export async function sendCertificateEmail({
   attachments: { filename: string; content: string }[]; // content = base64
 }) {
   const { eventName } = await loadEventCopy();
-  await resend.emails.send({
+  await getResend().emails.send({
     from: FROM,
     to,
     subject: isWinner
