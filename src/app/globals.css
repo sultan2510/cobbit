@@ -1,0 +1,53 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-cream text-charcoal font-body;
+  }
+  ::selection {
+    background: #FF6A1A;
+    color: #FFF6E8;
+  }
+  :focus-visible {
+    outline: 2px solid #FF6A1A;
+    outline-offset: 2px;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-full bg-orange px-7 py-3.5 font-display text-base font-bold text-cream transition-transform duration-150 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-orange/30 active:translate-y-0;
+  }
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 rounded-full border-2 border-charcoal px-7 py-3.5 font-display text-base font-bold text-charcoal transition-colors duration-150 hover:bg-charcoal hover:text-cream;
+  }
+  .eyebrow {
+    @apply font-mono text-xs font-medium uppercase tracking-[0.18em] text-orange;
+  }
+  .section {
+    @apply mx-auto max-w-6xl px-6 py-20 md:px-10;
+  }
+  .card {
+    @apply rounded-3xl border border-charcoal/10 bg-white/70 p-6 shadow-sm;
+  }
+  .input {
+    @apply w-full rounded-xl border border-charcoal/15 bg-white px-4 py-3 text-charcoal placeholder:text-dgray/50 focus:border-orange focus:outline-none focus:ring-2 focus:ring-orange/20;
+  }
+  .label {
+    @apply mb-1.5 block font-body text-sm font-semibold text-charcoal;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
