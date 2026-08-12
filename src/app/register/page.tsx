@@ -6,6 +6,12 @@ import { createClient } from "@/lib/supabase/client";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
+// This page needs a live Supabase client on every render, so it should never
+// be statically prerendered at build time (which runs with no request
+// context and can crash if env vars aren't fully synced yet). Forcing
+// dynamic rendering makes Next.js render it per-request instead.
+export const dynamic = "force-dynamic";
+
 type Step = "loading" | "account" | "details" | "done";
 
 export default function RegisterPage() {

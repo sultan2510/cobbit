@@ -6,6 +6,8 @@ import { createClient } from "@/lib/supabase/client";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
+export const dynamic = "force-dynamic";
+
 export default function LoginPage() {
   const supabase = createClient();
   const router = useRouter();
